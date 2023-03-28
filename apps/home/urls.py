@@ -10,6 +10,11 @@ urlpatterns = [
 
     # The home page
     path('', views.index, name='home'),
+    path('client/list/', views.client_list, name='client_list'),
+    path('client/info/<int:pk>/', views.client_info, name='client_info'),
+
+    path('cotisation/list/', views.cotisation_list, name='cotisation_list'),
+    path('cotisation/info/<int:pk>/', views.cotisation_info, name='cotisation_info'),
 
     # Matches any html file
     re_path(r'^.*\.*', views.pages, name='pages'),

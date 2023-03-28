@@ -1,0 +1,92 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Cotisations {% endblock %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+{% load client_filter %}
+{% block content %}
+
+  <div class="body flex-grow-1 px-3">
+    <div class="container-lg">
+      <div class="card mb-4">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-4">
+              <img style="width:200px;height:200px" src="/static/assets/img/avatars/1.jpg" alt="user@email.com">
+            </div>
+            <div class="col-8">
+              <table class="table table-bordered border-primary" >
+                <tbody>
+                  <tr><td>Numero</td><td>{{client.code_client}}</td></tr>
+                  <tr><td>Numero C.N.I</td><td>{{client.numero_carte}}</td></tr>
+                  <tr><td>Nom</td><td>{{client.nom}}</td></tr>
+                  <tr><td>Prénom</td><td>{{client.prenom}}</td></tr>
+                  <tr><td>Genre</td><td>{% if client.genre == 0 %}Femme{% else %}Homme{% endif %} </td></tr>
+                  <tr><td>Téléphone</td><td>{{client.telephone}}</td></tr>
+                  <tr><td>Date creation</td><td>{{client.date_creation}}</td></tr>
+                  <tr><td>Crée par</td><td>{{client.util_cree}}</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <table class="table table-bordered border-primary">
+            <thead>
+              <tr>
+                <th scope="col" width="4px">N<sup>o</sup></th>
+                <th scope="col">Code transaction</th>
+                <th scope="col">Date cotisation</th>
+                <th scope="col">Type cotisation</th>
+                <th scope="col">Periode cotisation</th>
+                <th scope="col">Collecté par</th>
+                <th scope="col">Montant cotisation</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for list in cotisation %}
+              <tr>
+                <th scope="row">1</th>
+                <td>{{list.code_transaction}}</td>
+                <td>{{list.date_cotisation}}</td>
+                <td>{{list.type_cotisation|get_type_cotisation}}</td>
+                <td>{{list.periode_cotisation}}</td>
+                <td>{{list.util_cree}}</td>
+                <th>{{list.montant}}</th>
+              </tr>
+              {% endfor %}
+            </tbody>
+            <tfoot>
+            <tr><th colspan="6">Montant Total de cotisation</th><th>5200000</th></tr>
+            </tfoot>
+          </table>
+
+          <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+            <button class="btn btn-primary" type="button">
+               <svg class="icon">
+                  <use xlink:href="/static/assets/vendors/@coreui/icons/svg/free.svg#cil-print"></use>
+               </svg>   PDF
+            </button>
+            <button class="btn btn-success" type="button">
+               <svg class="icon">
+                  <use xlink:href="/static/assets/vendors/@coreui/icons/svg/free.svg#cil-print"></use>
+               </svg>   EXECL
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+
+  <!-- Plugins and scripts required by this view-->
+  <script src="/static/assets/vendors/@coreui/utils/js/coreui-utils.js"></script>
+  <script src="/static/assets/js/colors.js"></script>
+  <script>
+  </script>
+
+{% endblock javascripts %}

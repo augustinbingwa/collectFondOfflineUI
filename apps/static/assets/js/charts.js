@@ -38,19 +38,19 @@ const lineChart = new Chart(document.getElementById('canvas-1'), {
 const barChart = new Chart(document.getElementById('canvas-2'), {
   type: 'bar',
   data: {
-    labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+    labels: ['Janvier', 'Fevrier', 'Mars'],
     datasets: [{
       backgroundColor: 'rgba(220, 220, 220, 0.5)',
       borderColor: 'rgba(220, 220, 220, 0.8)',
       highlightFill: 'rgba(220, 220, 220, 0.75)',
       highlightStroke: 'rgba(220, 220, 220, 1)',
-      data: [random(), random(), random(), random(), random(), random(), random()]
+      data: [random(), random(), random()]
     }, {
       backgroundColor: 'rgba(151, 187, 205, 0.5)',
       borderColor: 'rgba(151, 187, 205, 0.8)',
       highlightFill: 'rgba(151, 187, 205, 0.75)',
       highlightStroke: 'rgba(151, 187, 205, 1)',
-      data: [random(), random(), random(), random(), random(), random(), random()]
+      data: [random(), random(), random()]
     }]
   },
   options: {

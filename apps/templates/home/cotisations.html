@@ -1,0 +1,177 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Cotisations {% endblock %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+{% load client_filter %}
+{% block content %}
+
+  <div class="body flex-grow-1 px-3">
+    <div class="container-lg">
+      <div class="card mb-4">
+        <div class="card-header">
+          <svg class="icon">
+            <use xlink:href="/static/assets/vendors/@coreui/icons/svg/free.svg#cil-list-filter"></use>
+          </svg>
+          Filtre
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-3">
+                <div class="row">
+                  <div class="col-6">
+                    <label class="form-label">Date debut</label>
+                    <input class="form-control form-control-sm" type="text">
+                  </div>
+                  <div class="col-6">
+                    <label class="form-label">Date Fin</label>
+                    <input class="form-control form-control-sm" type="text">
+                  </div>
+                </div>
+            </div>
+            <div class="col-9">
+              <div class="row justify-content-end">
+                <div class="col-3">
+                  <label class="form-label">Code Transation</label>
+                  <input class="form-control form-control-sm" type="text">
+                </div>
+                <div class="col-3">
+                  <label class="form-label">Numero client</label>
+                  <input class="form-control form-control-sm" type="text">
+                </div>
+                <div class="col-3">
+                  <label class="form-label">Nom percepteur</label>
+                  <input class="form-control form-control-sm" type="text">
+                </div>
+                <div class="col-1">
+                  <button class="btn btn-sm btn-primary" style="margin-top:2.2em;" type="submit">
+                    <svg class="icon">
+                      <use xlink:href="/static/assets/vendors/@coreui/icons/svg/free.svg#cil-zoom"></use>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card mb-4">
+        <div class="card-header"> Cotisations</div>
+        <div class="card-body">
+           <div class="table-responsive">
+                <table class="table border mb-0">
+                  <thead class="table-light fw-semibold">
+                    <tr class="align-middle">
+                      <th class="text-center">
+                        <svg class="icon">
+                          <use xlink:href="/static/assets/vendors/@coreui/icons/svg/free.svg#cil-money"></use>
+                        </svg>
+                      </th>
+                      <th>Clients</th>
+                      <th>Code Transaction</th>
+                      <th>Montant</th>
+                      <th>Date cotisation</th>
+                      <th>Collecté par</th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  {% for list in page_obj %}
+                    <tr class="align-middle">
+                      <td class="text-center">
+                        <div class="avatar avatar-md"><img class="avatar-img" src="/static/assets/img/avatars/1.jpg" alt="user@email.com"><span class="avatar-status bg-success"></span></div>
+                      </td>
+                      <td>
+                        <div>{{list.code_client|get_client_by_code}}</div>
+                        <div class="small text-medium-emphasis">{{list.code_client|get_client_by_code_date_cr}}</div>
+                      </td>
+                      <td>
+                        <div>{{list.code_transaction}}</div>
+                      </td>
+                      <td class="text-center">
+                        <div>{{list.montant}}</div>
+                      </td>
+                      <td>
+                        <div>{{list.date_cotisation}}</div>
+                      </td>
+                      <td>
+                        <div>{{list.util_cree}}</div>
+                      </td>
+                      <td>
+                        <div class="dropdown">
+                          <button class="btn btn-transparent p-0" type="button" data-coreui-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <svg class="icon">
+                              <use xlink:href="/static/assets/vendors/@coreui/icons/svg/free.svg#cil-options"></use>
+                            </svg>
+                          </button>
+                          <div class="dropdown-menu dropdown-menu-end">
+                            <a class="dropdown-item" href="{% url 'cotisation_info' list.code_client|get_id_client_by_code %}">
+                              <svg class="icon">
+                                <use xlink:href="/static/assets/vendors/@coreui/icons/svg/free.svg#cil-folder-open"></use>
+                              </svg>
+                              Voir Info
+                            </a>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                  {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+        </div>
+        <div class="card-footer">
+          <nav aria-label="...">
+            <div class="row">
+              <div class="col-10">
+                <ul class="pagination">
+              {% if page_obj.has_previous %}
+              <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+              </li>
+              {% endif %}
+              {% for n in page_obj.paginator.page_range %}
+                    {% if page_obj.number == n %}
+                        <li class="page-item active paginator-style">
+                            <span class="page-link">{{ n }}</span>
+                        </li>
+                    {% elif n > page_obj.number|add:'-3' and n < page_obj.number|add:'3' %}
+                        <li class="page-item paginator-style"><a class="page-link" href="?page={{ n }}">{{ n }}</a></li>
+                    {% endif %}
+              {% endfor %}
+              {% if page_obj.has_next %}
+              <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
+              </li>
+              {% endif %}
+            </ul>
+              </div>
+              <div class="col-2">
+                <ul class="pagination justify-content-end">
+               <li class="page-item disabled">
+                 <a class="page-link" href="#" tabindex="-1" aria-disabled="true">
+                   Page {{ page_obj.number }} / {{ page_obj.paginator.num_pages }}
+                 </a>
+               </li>
+            </ul>
+              </div>
+            </div>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+
+  <!-- Plugins and scripts required by this view-->
+  <script src="/static/assets/vendors/@coreui/utils/js/coreui-utils.js"></script>
+  <script src="/static/assets/js/colors.js"></script>
+  <script>
+  </script>
+
+{% endblock javascripts %}
